@@ -2,10 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Three.js Vite 3D Demo</title>
+    <title>Web3D AR.js</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar-nft.min.js"></script>
+    <style>
+      body { margin: 0; overflow: hidden; }
+    </style>
   </head>
   <body>
-    <script type="module" src="/src/main.js"></script>
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; debugUIEnabled: false;"
+      renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true"
+    >
+      <!-- Marker Hiro -->
+      <a-marker type="pattern" url="/public/marker/marker.patt">
+        <a-entity
+          gltf-model="/public/model/cat.glb"
+          position="0 0 0"
+          rotation="0 180 0"
+          scale="0.4 0.4 0.4"
+          animation-mixer
+        ></a-entity>
+      </a-marker>
+
+      <a-entity camera></a-entity>
+    </a-scene>
   </body>
 </html>
