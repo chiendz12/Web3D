@@ -6,11 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar-nft.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/deltaluca/aframe-orbit-controls-component/dist/aframe-orbit-controls.min.js"></script>
+    <script src="/public/component/mouse-rotate-scale.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
+      #modelSelector {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 5px;
+        font-size: 16px;
+        z-index: 1000;
+      }
     </style>
   </head>
   <body>
+    <select id="modelSelector">
+      <option value="/public/model/cat.glb">Mèo</option>
+      <option value="/public/model/penguin.glb">Chim cánh cụt</option>
+    </select>
     <a-scene
       vr-mode-ui="enabled: false"
       embedded
@@ -20,15 +34,27 @@
       <!-- Marker Hiro -->
       <a-marker type="pattern" url="/public/marker/marker.patt">
         <a-entity
+          id="modelEntity"
           gltf-model="/public/model/cat.glb"
           position="0 0 0"
           rotation="0 180 0"
           scale="0.4 0.4 0.4"
           animation-mixer
+          mouse-rotate-scale
         ></a-entity>
       </a-marker>
 
       <a-entity camera></a-entity>
     </a-scene>
+
+    <script>
+      const selector = document.getElementById('modelSelector');
+      const modelEntity = document.getElementById('modelEntity');
+
+      selector.addEventListener('change', (event) => {
+        const selectedModel = event.target.value;
+        modelEntity.setAttribute('gltf-model', selectedModel);
+      });
+    </script>
   </body>
 </html>
