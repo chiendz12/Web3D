@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar-nft.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/deltaluca/aframe-orbit-controls-component/dist/aframe-orbit-controls.min.js"></script>
     <script src="/public/component/mouse-rotate-scale.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
@@ -32,7 +31,7 @@
       renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true"
     >
       <!-- Marker Hiro -->
-      <a-marker type="pattern" url="/public/marker/marker.patt">
+      <a-marker type="pattern" url="/public/marker/cat.patt">
         <a-entity
           id="modelEntity"
           gltf-model="/public/model/cat.glb"
