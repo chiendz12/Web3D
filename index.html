@@ -51,20 +51,18 @@
       const modelEntity = document.getElementById('modelEntity');
 
       fetch('/api/models')
-        .then(res => res.json())
-        .then(models => {
-          selector.innerHTML = models
-            .map(m => `<option value="${m.file}">${m.name}</option>`)
-            .join('');
-
-        // Load model đầu tiên
-          modelEntity.setAttribute('gltf-model', models[0].file + '?t=' + Date.now());
-
-          selector.addEventListener('change', () => {
-            const urlWithTs = selector.value + '?t=' + Date.now();
-            modelEntity.setAttribute('gltf-model', urlWithTs);
-          });
+      .then(res => res.json())
+      .then(models => {
+        selector.innerHTML = models
+          .map(m => `<option value="${m.file}">${m.name}</option>`).join('');
+        if (models[0]) {
+          modelEntity.setAttribute('gltf-model', models[0].file);
+        }
+        selector.addEventListener('change', () => {
+          modelEntity.setAttribute('gltf-model', selector.value);
         });
+      })
+      .catch(err => console.error(err));
     </script>
   </body>
 </html>
