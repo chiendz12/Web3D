@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar-nft.min.js"></script>
-    <script src="/public/component/mouse-rotate-scale.js"></script>
+    <script src="/component/mouse-rotate-scale.js"></script>
     <style>
       body { margin: 0; overflow: hidden; }
       #modelSelector {
@@ -21,8 +21,8 @@
   </head>
   <body>
     <select id="modelSelector">
-      <option value="/public/model/cat.glb">Mèo</option>
-      <option value="/public/model/penguin.glb">Chim cánh cụt</option>
+      <option value="/model/cat.glb">Mèo</option>
+      <option value="/model/penguin.glb">Chim cánh cụt</option>
     </select>
     <a-scene
       vr-mode-ui="enabled: false"
@@ -31,10 +31,10 @@
       renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true"
     >
       <!-- Marker Hiro -->
-      <a-marker type="pattern" url="/public/marker/cat.patt">
+      <a-marker type="pattern" url="/marker/cat.patt">
         <a-entity
           id="modelEntity"
-          gltf-model="/public/model/cat.glb"
+          gltf-model="/model/cat.glb"
           position="0 0 0"
           rotation="0 180 0"
           scale="0.4 0.4 0.4"
@@ -50,10 +50,21 @@
       const selector = document.getElementById('modelSelector');
       const modelEntity = document.getElementById('modelEntity');
 
-      selector.addEventListener('change', (event) => {
-        const selectedModel = event.target.value;
-        modelEntity.setAttribute('gltf-model', selectedModel);
-      });
+      fetch('/api/models')
+        .then(res => res.json())
+        .then(models => {
+          selector.innerHTML = models
+            .map(m => `<option value="${m.file}">${m.name}</option>`)
+            .join('');
+
+        // Load model đầu tiên
+          modelEntity.setAttribute('gltf-model', models[0].file + '?t=' + Date.now());
+
+          selector.addEventListener('change', () => {
+            const urlWithTs = selector.value + '?t=' + Date.now();
+            modelEntity.setAttribute('gltf-model', urlWithTs);
+          });
+        });
     </script>
   </body>
 </html>
