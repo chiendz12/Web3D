@@ -12,9 +12,11 @@ export default function ARViewer() {
       .then(res => res.json())
       .then(data => {
         setModels(data);
-        if (data[0]) {
-          modelEntityRef.current.setAttribute('gltf-model', `${API_BASE}${data[0].file}`);
-        }
+        setTimeout(() => {
+          if (data[0] && modelEntityRef.current) {
+            modelEntityRef.current.setAttribute('gltf-model', `${API_BASE}${data[0].file}`);
+          }
+        }, 500);
       });
   }, []);
 
@@ -25,7 +27,7 @@ export default function ARViewer() {
   return (
     <>
       <select id="modelSelector" onChange={handleChange} style={{
-        position: 'absolute', top: 10, left: 10
+        position: 'absolute', top: 10, left: 10, zIndex: 1000
       }}>
         {models.map((m) => (
           <option key={m.name} value={m.file}>{m.name}</option>
